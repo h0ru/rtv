@@ -1,0 +1,169 @@
+#!/bin/bash
+
+    red='\033[33;31m'
+    green='\033[33;32m'
+    blue='\033[33;34m'
+    white='\033[1;37m'
+    BPurple='\033[1;35m'
+
+echo -e "$green
+
+    ╔═══╗             ╔╗         ╔╗  ╔╗                      
+    ║╔═╗║            ╔╝╚╗        ║╚╗╔╝║                      
+    ║╚═╝║╔══╗╔╗╔╗╔══╗╚╗╔╝╔══╗    ╚╗║║╔╝╔╗╔══╗╔╗╔╗╔╗╔╗╔═╗ ╔══╗
+    ║╔╗╔╝║╔╗║║╚╝║║╔╗║ ║║ ║╔╗║     ║╚╝║ ╠╣║╔╗║║╚╝╚╝║╠╣║╔╗╗║╔╗║
+    ║║║╚╗║║═╣║║║║║╚╝║ ║╚╗║║═╣     ╚╗╔╝ ║║║║═╣╚╗╔╗╔╝║║║║║║║╚╝║
+    ╚╝╚═╝╚══╝╚╩╩╝╚══╝ ╚═╝╚══╝      ╚╝  ╚╝╚══╝ ╚╝╚╝ ╚╝╚╝╚╝╚═╗║
+                                                         ╔═╝║
+                                                         ╚══╝ 
+                            $red 𝓫𝔂 𝓗0𝓻𝓾
+
+"
+
+
+echo -e "$blue Proceed?
+ [?] y or ENTER to continue
+ [?] n to exit"
+         echo -e "$white"
+         read -p " [y/n]: " ANSWER 
+         test "$ANSWER" = "n" && exit
+         clear
+
+
+###
+#Checking Installed Programs
+
+    testremmina=$(command -v remmina >/dev/null 2>&1 && echo -e "$green Installed!" || echo -e "$red Not Installed!")
+    testrdesktop=$(command -v rdesktop >/dev/null 2>&1 && echo -e "$green Installed!" || echo -e "$red Not Installed!")
+    testxfreerdp=$(command -v xfreerdp >/dev/null 2>&1 && echo -e "$green Installed!" || echo -e "$red Not Installed!")
+    testevilwinrm=$(command -v evil-winrm >/dev/null 2>&1 && echo -e "$green Installed!" || echo -e "$red Not Installed!")
+
+
+echo -e "$green"
+
+arr=('.' '..' '...' '   ')
+
+for c in $(seq 8); do
+        for elt in ${arr[*]}; do
+                echo -ne "\r\033[<1>A  Checking installed programs $elt" && sleep 0.08;
+        done
+done
+reset
+
+    echo -e "$blue
+
+
+    ┌────────────────────┐
+    │      Remmina       │   [$testremmina$blue ]
+    └────────────────────┘   
+    ┌────────────────────┐
+    │      Rdesktop      │   [$testrdesktop$blue ]
+    └────────────────────┘
+    ┌────────────────────┐
+    │      XfreeRDP      │   [$testxfreerdp$blue ]
+    └────────────────────┘
+    ┌────────────────────┐
+    │     Evil-WinRM     │   [$testevilwinrm$blue ]
+    └────────────────────┘
+    "
+
+    test_remmina=$(command -v remmina >/dev/null 2>&1 && echo -e "1" || echo -e "0")
+    test "$test_remmina" = "0" && echo -e "$white" && exit
+    
+    test_rdesktop=$(command -v rdesktop >/dev/null 2>&1 && echo -e "1" || echo -e "0")
+    test "$test_rdesktop" = "0" && echo -e "$white" && exit
+    
+    test_xfreerdp=$(command -v xfreerdp >/dev/null 2>&1 && echo -e "1" || echo -e "0")
+    test "$test_xfreerdp" = "0" && echo -e "$white" && exit
+
+    test_evilwinrm=$(command -v evil-winrm >/dev/null 2>&1 && echo -e "1" || echo -e "0")
+    test "$test_evilwinrm" = "0" && echo -e "$white" && exit
+
+###
+#Choices
+
+echo -e "$blue Proceed?
+ [?] y or ENTER to continue
+ [?] n to exit"
+         echo -e "$white"
+         read -p " [y/n]: " ANSWER
+         test "$ANSWER" = "n" && exit
+         clear
+
+reset
+
+echo -e "
+              ..,,;;;;;;,,,,
+        .,;'';;,..,;;;,,,,,.''';;,..
+     ,,''                    '';;;;,;''
+    ;'    ,;00;'  ,00;, 00, ';;;00;,;';.
+   ''  ,;00000'  ;0000; ''    ;;00000;;;;
+      ;;00000;    '''     .,,;;;0000000;;;
+     ;;000000;           , ';;;00000000;;;.
+      '';00000,.  ,   .   ',;;;000000;;;;;;
+         .   '';;;;;;;;;,;;;;00000;;' ,.:;'
+           ''..,,     ''''    '  .,;'
+                ''''''::''''''''
+
+             $BPurple 𝓒𝓱𝓸𝓲𝓬𝓮 𝔂𝓸𝓾𝓻 𝓥𝓲𝓮𝔀𝓲𝓷𝓰 $white
+"
+
+PS3='Choice: '
+type=(
+"Remmina"
+"Rdesktop"
+"XfreeRDP"
+"Evil-WinRM"
+"Exit"
+)
+select var in "${type[@]}"; do
+  case $var in
+   "Remmina")
+     echo -e "$blue"
+     echo " [?] Structure: remmina -c (vnc||rdp)://<name>:<password>@<ip> --enable-fullscreen" 
+     echo -e "$green"
+     read -p " [*] vnc OR rdp: " rmt
+     read -p " [*] Name: " rmn
+     read -p " [*] Password: " rmp
+     read -p " [*] IP: " rmip
+     echo -e "$white"
+     remmina -c $rmt://$rmn:$rmp@$rmip --enable-fullscreen
+     exit
+      ;;      
+   "Rdesktop")
+     echo -e "$blue"
+     echo "  [?] Structure: rdesktop -u <name> <ip> -r clipboard:PRIMARYCLIPBOARD"
+     echo -e "$green"
+     read -p "  [*] Name: " rdnm
+     read -p "  [*] IP: " rdip
+     echo -e "$white"
+     rdesktop -u $rdnm $rdip -r clipboard:PRIMARYCLIPBOARD 
+     exit
+      ;;
+   "XfreeRDP")
+     echo -e "$blue"
+     echo "  [?] Structure: xfreerdp /u:<name> /p:<password> /v:<ip> +clipboard /dynamic-resolution /tls-seclevel:0 /cert:ignore"
+     echo -e "$green"
+     read -p "  [*] Name: " xfnm
+     read -p "  [*] Password: " xfpw
+     read -p "  [*] IP: "  xfip
+     echo -e "$white"
+     xfreerdp /u:$xfnm /p:$xfpw /v:$xfip +clipboard /dynamic-resolution /tls-seclevel:0 /cert:ignore
+     exit
+     ;;
+   "Evil-WinRM")
+     echo -e "$blue"
+     echo "  [?] Structure: evil-winrm -i <ip> -u <name> -p <password>"
+     echo -e "$green"
+     read -p "  [*] Name: " ewnm
+     read -p "  [*] Password: " ewpw
+     read -p "  [*] IP: " ewip
+     echo -e "$white"
+     evil-winrm -i $ewip -u $ewnm -p $ewpw
+     exit
+     ;;
+   "Exit")
+    exit
+     ;;
+   esac
+done
